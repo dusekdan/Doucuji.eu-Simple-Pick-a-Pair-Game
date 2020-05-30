@@ -23,8 +23,15 @@ let cards = [];
 
 // An array of players that are playing the game
 let players = [];
-
 let currentPlayer = 0;
+
+// TODO: Take imagelist and create card set based of that
+// TODO: Create a function to shuffle the card deck
+// Optional TODO: Figure out how to represent player's turn 
+//  Two approaches
+//  - Keep a state of cards being turned in a turn by the player, or
+//  - Iterate over the whole cards array and check for turned cards (but there's a catch!)
+// Optional TODO: Follow-up with code for "game flow" based on player's turn outcome
 
 function createCardSet(numberOfPairs) {
     let cardSet = [];
@@ -33,7 +40,7 @@ function createCardSet(numberOfPairs) {
         for (let i = 0; i < numberOfPairs; i++) {
             let idOffset = j == 0 ? 0 : numberOfPairs;
             cardSet.push({
-                "id": i + idOffset,    // Quiz question: Why is an ID offset?
+                "id": i + idOffset,    // Quiz question: Why is there an ID offset?
                 "type": "text",
                 "content": "ID " + i,
                 "face": "down",
