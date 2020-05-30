@@ -1,0 +1,89 @@
+// In real life scenario, we would probably create a class that would describe
+// single card and operations that we can perform over it. In order to keep
+// this simple, let's just outline a JSON structure that will be used to 
+// describe every such car.
+let exampleCard = {
+    "id": 0,
+    "type": "text", // Could be also "image" - for image cards
+    "content": "random text",
+    "face": "down", // ("up" when it is revealed by a player)
+    "collected": false, // changes to true, when a player finds it
+}
+
+// Similarly, create a JSON describing a player.
+let examplePlayer = {
+    "id": 0,
+    "name": "Player 1",
+    "moves": 0,
+    "collected": [], // an array of IDs that player has collected.
+}
+
+// An array of cards that are to be rendered into the page.
+let cards = [];
+
+// An array of players that are playing the game
+let players = [];
+
+let currentPlayer = 0;
+
+function createCardSet(numberOfPairs) {
+    let cardSet = [];
+
+    for (let j = 0; j < 2; j++) {   // Ensure PAIRS of cards are created
+        for (let i = 0; i < numberOfPairs; i++) {
+            let idOffset = j == 0 ? 0 : numberOfPairs;
+            cardSet.push({
+                "id": i + idOffset,    // Quiz question: Why is an ID offset?
+                "type": "text",
+                "content": "ID " + i,
+                "face": "down",
+                "collected": false
+            });
+        }
+    }
+
+    return cardSet;
+}
+
+function createPlayer(name) {
+    return {
+        "id": players.length,
+        "name": name,
+        "moves": 0,
+        "collected": []
+    }
+}
+
+function turnCard(card) {
+    if (card.face == "down") {
+        card.face = "up";
+    } else {
+        card.face = "down";
+    }
+}
+
+function turnCardById(id) {
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].id == id) {
+            turnCard(cards[i]);
+        }
+    }
+}
+
+function collectCard(card) {
+    // Search for a pair of cards with same content and collect both of them
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].content == card.content) {
+            cards[i].collected = true;
+        }
+    }
+    card.collected = true;
+}
+
+function nextTurn() {
+    if (currentPlayer == players.length-1) {
+        currentPlayer = players[0].id;
+    } else {
+        currentPlayer = currentPlayer+1;
+    }
+}
